@@ -3,7 +3,10 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: 'airbnb',
+  extends: [
+    'airbnb',
+    'prettier',
+  ],
   overrides: [
     {
       env: {
@@ -22,5 +25,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'react/react-in-jsx-scope': ['off'],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"]  }],
   },
 };
