@@ -19,7 +19,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  ignorePatterns: ['cypress.config.js', 'cypress'],
+  ignorePatterns: ['cypress.config.js', 'cypress', 'setupTests.js', '*.test.js'],
   rules: {
     'react/react-in-jsx-scope': ['off'],
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
