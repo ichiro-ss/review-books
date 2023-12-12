@@ -23,5 +23,16 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': ['off'],
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'import/prefer-default-export': ['off'],
+    'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: true,
+        peerDependencies: false,
+      },
+    ],
+    'no-unused-vars': ['off'],
+    'arrow-body-style': ['off'],
   },
 };
