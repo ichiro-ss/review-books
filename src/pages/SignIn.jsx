@@ -5,6 +5,7 @@ import { Navigate, useNavigate, Link } from 'react-router-dom'; // eslint-disabl
 import { useDispatch, useSelector } from 'react-redux'; // eslint-disable-line import/no-extraneous-dependencies
 import { signIn } from '../authSlice';
 import { url } from '../const';
+import { Header } from '../components/Header';
 
 export const SignIn = () => {
   const auth = useSelector((state) => state.auth.isSignIn);
@@ -34,6 +35,7 @@ export const SignIn = () => {
   return (
     <div>
       <main className="signin">
+        <Header />
         <h2>サインイン</h2>
         <p className="error-message">{errorMessage}</p>
         <form className="signin-form">

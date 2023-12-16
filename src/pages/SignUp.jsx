@@ -5,6 +5,7 @@ import { useNavigate, Navigate } from 'react-router-dom'; // eslint-disable-line
 import { useSelector, useDispatch } from 'react-redux'; // eslint-disable-line import/no-extraneous-dependencies
 import { signIn } from '../authSlice';
 import { url } from '../const';
+import { Header } from '../components/Header';
 
 export const SignUp = () => {
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ export const SignUp = () => {
   return (
     <div>
       <main className="signup">
+        <Header />
         <h2>新規作成</h2>
         <p className="error-message">{errorMessage}</p>
         <form className="signup-form">

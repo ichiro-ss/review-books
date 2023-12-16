@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import { SignIn } from './SignIn';
 
 describe('sign in', () => {
   test('input form exists', () => {
