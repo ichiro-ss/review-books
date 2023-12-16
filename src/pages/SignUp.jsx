@@ -21,8 +21,8 @@ export const SignUp = () => {
   const handlePasswordChange = (e) => setPassword(e.target.value);
   const onSignUp = () => {
     const data = {
-      email,
       name,
+      email,
       password,
     };
 
