@@ -1,7 +1,7 @@
 import axios from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { useState } from 'react';
 import { useCookies } from 'react-cookie'; // eslint-disable-line import/no-extraneous-dependencies
-import { useNavigate, Navigate } from 'react-router-dom'; // eslint-disable-line import/no-extraneous-dependencies
+import { useNavigate, Navigate, Link } from 'react-router-dom'; // eslint-disable-line import/no-extraneous-dependencies
 import { useSelector, useDispatch } from 'react-redux'; // eslint-disable-line import/no-extraneous-dependencies
 import { signIn } from '../authSlice';
 import { url } from '../const';
@@ -65,6 +65,7 @@ export const SignUp = () => {
             Create
           </button>
         </form>
+        <Link to="/signin">すでにアカウントをもっている</Link>
       </main>
     </div>
   );
