@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie'; // eslint-disable-line import/no-extr
 import { useNavigate, Navigate, Link } from 'react-router-dom'; // eslint-disable-line import/no-extraneous-dependencies
 import { useSelector, useDispatch } from 'react-redux'; // eslint-disable-line import/no-extraneous-dependencies
 import Compressor from 'compressorjs'; // eslint-disable-line import/no-extraneous-dependencies
+import { useForm } from 'react-hook-form'; // eslint-disable-line import/no-extraneous-dependencies
 import { signIn } from '../authSlice';
 import { url } from '../const';
 import { Header } from '../components/Header';
@@ -19,6 +20,11 @@ export const SignUp = () => {
   const [iconPrev, setIconPrev] = useState(null);
   const [errorMessage, setErrorMessge] = useState();
   const [cookies, setCookie, removeCookie] = useCookies();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handleNameChange = (e) => setName(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -88,22 +94,60 @@ export const SignUp = () => {
         <Header />
         <h2>新規作成</h2>
         <p className="error-message">{errorMessage}</p>
-        <form className="signup-form">
-          <label htmlFor="email">
-            email
-            <input type="email" onChange={handleEmailChange} id="email" />
-          </label>
+        <form className="signup-form" onSubmit={handleSubmit(onSignUp)}>
+          {/* eslint-disable */}
           <label htmlFor="text">
             name
-            <input type="text" onChange={handleNameChange} id="text" />
+            <input
+              {...register('name', {
+                required: 'please input your name',
+                maxLength: {
+                  value: 30,
+                  message: 'maxLength: 30',
+                },
+              })}
+              type="text"
+              onChange={handleNameChange}
+              id="text"
+            />
+          </label>
+          <label htmlFor="email">
+            email
+            <input
+              {...register('email', {
+                required: 'please input your email',
+                pattern: {
+                  value: /^[\w\-._]+@[\w\-._]+\.[A-Za-z]+/,
+                  message: 'please check your email',
+                },
+              })}
+              type="email"
+              onChange={handleEmailChange}
+              id="email"
+            />
           </label>
           <label htmlFor="password">
             password
-            <input type="password" onChange={handlePasswordChange} id="password" />
+            <input
+              {...register('password', {
+                required: 'please input password',
+                minLength: {
+                  value: 2,
+                  message: 'minLength: 2',
+                },
+              })}
+              type="password"
+              onChange={handlePasswordChange}
+              id="password"
+            />
           </label>
+          {errors.name && <div>{errors.name.message}</div>}
+          {errors.email && <div>{errors.email.message}</div>}
+          {errors.password && <div>{errors.password.message}</div>}
+          {/* eslint-enable */}
           <p>アイコンを設定</p>
           <input type="file" onChange={handleIconChange} id="file" accept="image/*" required />
-          <button type="button" onClick={onSignUp} className="signup-button">
+          <button type="submit" className="signup-button">
             Create
           </button>
         </form>
