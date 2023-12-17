@@ -5,6 +5,8 @@ describe('input form', () => {
     cy.get('input[type="password"]').click();
     cy.get('.validation-err-email').should('be.visible');
 
+    cy.get('input[type="email"]').clear();
+
     cy.get('input[type="email"]').type('sample@email.com');
     cy.get('input[type="password"]').click();
     cy.get('.validation-err-email').should('not.exist');
