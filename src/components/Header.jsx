@@ -18,7 +18,7 @@ export const Header = () => {
 
   return (
     <header className="header">
-      <h1>Todoアプリ</h1>
+      <h1>Review Books</h1>
       {auth ? (
         <>
           <img src={cookies.iconUrl} alt="" />

@@ -61,7 +61,6 @@ export const SignUp = () => {
       .then((res) => {
         const { iconUrl } = res.data;
         setCookie('iconUrl', iconUrl);
-        console.log(cookies.iconUrl);
         navigate('/');
       })
       .catch((err) => {
