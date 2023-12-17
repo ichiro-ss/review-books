@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useCookies } from 'react-cookie'; // eslint-disable-line import/no-extraneous-dependencies
 import { useNavigate, Navigate, Link } from 'react-router-dom'; // eslint-disable-line import/no-extraneous-dependencies
 import { useSelector, useDispatch } from 'react-redux'; // eslint-disable-line import/no-extraneous-dependencies
+import Compressor from 'compressorjs'; // eslint-disable-line import/no-extraneous-dependencies
 import { signIn } from '../authSlice';
 import { url } from '../const';
 import { Header } from '../components/Header';
@@ -14,6 +15,8 @@ export const SignUp = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [iconFile, setIconFile] = useState(null);
+  const [iconPrev, setIconPrev] = useState(null);
   const [errorMessage, setErrorMessge] = useState();
   const [cookies, setCookie, removeCookie] = useCookies();
   const handleEmailChange = (e) => setEmail(e.target.value);
@@ -29,6 +32,24 @@ export const SignUp = () => {
     axios
       .post(`${url}/users`, data)
       .then((res) => {
+        if (iconFile) {
+          new Compressor(iconFile, {
+            quality: 0.6,
+            success(result) {
+              setIconFile(result);
+            },
+            error(err) {
+              console.log(err);
+            },
+          });
+        }
+        const formData = new FormData();
+        formData.append('icon', iconFile);
+        axios.post(`${url}/uploads`, formData, {
+          headers: { Authorization: `Bearer ${res.data.token}`, 'Content-Type': 'multipart/form-data' },
+        });
+      })
+      .then((res) => {
         const { token } = res.data;
         dispatch(signIn());
         setCookie('token', token);
@@ -38,6 +59,17 @@ export const SignUp = () => {
         setErrorMessge(`サインアップに失敗しました。 ${err}`);
       });
     if (auth) return <Navigate to="/" />;
+
+    return null;
+  };
+
+  const handleIconChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+      return null;
+    }
+    setIconFile(file);
+    setIconPrev(window.URL.createObjectURL(file));
 
     return null;
   };
@@ -61,10 +93,13 @@ export const SignUp = () => {
             password
             <input type="password" onChange={handlePasswordChange} id="password" />
           </label>
+          <p>アイコンを設定</p>
+          <input type="file" onChange={handleIconChange} id="file" accept="image/*" required />
           <button type="button" onClick={onSignUp} className="signup-button">
             Create
           </button>
         </form>
+        <img className="icon-preview" src={iconPrev} alt="" />
         <Link to="/signin">すでにアカウントをもっている</Link>
       </main>
     </div>

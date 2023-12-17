@@ -34,5 +34,6 @@ module.exports = {
     ],
     'no-unused-vars': ['off'],
     'arrow-body-style': ['off'],
+    'no-new': ['off'],
   },
 };
