@@ -3,6 +3,7 @@ import axios from 'axios'; // eslint-disable-line import/no-extraneous-dependenc
 import { useCookies } from 'react-cookie'; // eslint-disable-line import/no-extraneous-dependencies
 import { Navigate, useNavigate, Link } from 'react-router-dom'; // eslint-disable-line import/no-extraneous-dependencies
 import { useDispatch, useSelector } from 'react-redux'; // eslint-disable-line import/no-extraneous-dependencies
+import { useForm } from 'react-hook-form'; // eslint-disable-line import/no-extraneous-dependencies
 import { signIn } from '../authSlice';
 import { url } from '../const';
 import { Header } from '../components/Header';
@@ -15,6 +16,11 @@ export const SignIn = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState();
   const [cookies, setCookie, removeCookie] = useCookies();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: 'onBlur' });
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
   const onSignIn = () => {
@@ -38,19 +44,45 @@ export const SignIn = () => {
         <Header />
         <h2>サインイン</h2>
         <p className="error-message">{errorMessage}</p>
-        <form className="signin-form">
-          <label className="email-label" htmlFor="email">
+        {/* eslint-disable */}
+        <form className="signin-form" onSubmit={handleSubmit(onSignIn)}>
+          <label htmlFor="email">
             email
-            <input type="email" id="email" onChange={handleEmailChange} />
+            <input
+              {...register('email', {
+                required: 'please input your email',
+                pattern: {
+                  value: /^[\w\-._]+@[\w\-._]+\.[A-Za-z]+/,
+                  message: 'please check your email',
+                },
+              })}
+              type="email"
+              onChange={handleEmailChange}
+              id="email"
+            />
           </label>
           <label htmlFor="password">
             password
-            <input type="password" id="password" onChange={handlePasswordChange} />
+            <input
+              {...register('password', {
+                required: 'please input password',
+                minLength: {
+                  value: 2,
+                  message: 'minLength: 2',
+                },
+              })}
+              type="password"
+              onChange={handlePasswordChange}
+              id="password"
+            />
           </label>
-          <button type="button" className="signin-button" onClick={onSignIn}>
+          {errors.email && <div>{errors.email.message}</div>}
+          {errors.password && <div>{errors.password.message}</div>}
+          <button type="submit" className="signin-button">
             Sign In
           </button>
         </form>
+        {/* eslint-enable */}
         <Link to="/signup">新規作成</Link>
       </main>
     </div>
