@@ -76,8 +76,8 @@ export const SignIn = () => {
               id="password"
             />
           </label>
-          {errors.email && <div>{errors.email.message}</div>}
-          {errors.password && <div>{errors.password.message}</div>}
+          {errors.email && <p className="validation-err-email">{errors.email.message}</p>}
+          {errors.password && <p className="validation-err-password">{errors.password.message}</p>}
           <button type="submit" className="signin-button">
             Sign In
           </button>
