@@ -20,9 +20,12 @@ export const Header = () => {
     <header className="header">
       <h1>Todoアプリ</h1>
       {auth ? (
-        <button type="button" onClick={handleSignOut} className="sign-out-button">
-          サインアウト
-        </button>
+        <>
+          <img src={cookies.iconUrl} alt="" />
+          <button type="button" onClick={handleSignOut} className="sign-out-button">
+            サインアウト
+          </button>
+        </>
       ) : (
         <> </>
       )}
