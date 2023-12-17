@@ -9,7 +9,9 @@ const initialState = {
 
 export const authSlice = createSlice({
   name: 'auth',
-  initialState,
+  initialState: {
+    isSignIn: cookie.get('token') !== undefined,
+  },
   reducers: {
     signIn: (state) => {
       const theState = state;

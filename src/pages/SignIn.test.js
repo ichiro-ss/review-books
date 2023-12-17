@@ -1,20 +1,19 @@
 import { render, screen } from '@testing-library/react';
 import { SignIn } from './SignIn';
+import { Root } from '../Root';
+import { HashRouter } from 'react-router-dom';
 
 describe('sign in', () => {
   test('input form exists', () => {
-    render(<SignIn />);
-    const elem = screen.getByText(/input form/i);
-    expect(elem).toBeInTheDocument();
+    render(
+      <HashRouter>
+        <Root>
+          <SignIn />
+        </Root>
+      </HashRouter>,
+    );
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+    expect(screen.getByRole(/button/i)).toBeInTheDocument();
   });
-  // test('label exists', () => {
-  //   render(<SignIn />);
-  //   const elem = screen.getByText(/label/i);
-  //   expect(elem).toBeInTheDocument();
-  // });
-  // test('input form exists', () => {
-  //   render(<SignIn />);
-  //   const elem = screen.getByText(/button/i);
-  //   expect(elem).toBeInTheDocument();
-  // });
 });
