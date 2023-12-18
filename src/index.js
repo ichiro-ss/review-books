@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { CookiesProvider } from 'react-cookie'; // eslint-disable-line import/no-extraneous-dependencies
-import Root from './Root';
+import { Root } from './Root';
 import { App } from './App';
 import reportWebVitals from './reportWebVitals';
 

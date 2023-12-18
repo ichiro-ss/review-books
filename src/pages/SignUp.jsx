@@ -35,43 +35,48 @@ export const SignUp = () => {
       password,
     };
 
+    const uploadIcon = async (token) => {
+      const formData = new FormData();
+      formData.append('icon', iconFile);
+      const response = await axios
+        .post(`${url}/uploads`, formData, {
+          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
+        })
+        .then((res) => {
+          const { iconUrl } = res.data;
+          setCookie('iconUrl', iconUrl);
+        })
+        .catch((err) => {
+          setErrorMessge(`サインアップに失敗しました。 ${err}`);
+        });
+      return null;
+    };
+
     axios
       .post(`${url}/users`, data)
       .then((res) => {
+        if (iconFile) {
+          new Compressor(iconFile, {
+            quality: 0.6,
+            success(result) {
+              setIconFile(result);
+            },
+            error(err) {
+              console.log(err);
+            },
+          });
+        }
         const { token } = res.data;
+        uploadIcon(token);
         dispatch(signIn());
         setCookie('token', token);
+        navigate('/');
       })
       .catch((err) => {
         setErrorMessge(`サインアップに失敗しました。 ${err}`);
         return null;
       });
 
-    if (iconFile) {
-      new Compressor(iconFile, {
-        quality: 0.6,
-        success(result) {
-          setIconFile(result);
-        },
-        error(err) {
-          console.log(err);
-        },
-      });
-    }
-    const formData = new FormData();
-    formData.append('icon', iconFile);
-    axios
-      .post(`${url}/uploads`, formData, {
-        headers: { Authorization: `Bearer ${cookies.token}`, 'Content-Type': 'multipart/form-data' },
-      })
-      .then((res) => {
-        const { iconUrl } = res.data;
-        setCookie('iconUrl', iconUrl);
-        navigate('/');
-      })
-      .catch((err) => {
-        setErrorMessge(`サインアップに失敗しました。 ${err}`);
-      });
     if (auth) return <Navigate to="/" />;
 
     return null;
