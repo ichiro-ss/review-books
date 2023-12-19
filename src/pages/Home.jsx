@@ -26,11 +26,11 @@ export const Home = () => {
       });
   }, []);
   return (
-    <>
+    <div className="book-list">
       <Header />
       <p className="error-msg">{errorMessage}</p>
       <h2>本一覧</h2>
       <BooksTable books={books} />
-    </>
+    </div>
   );
 };
