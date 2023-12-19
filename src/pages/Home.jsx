@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux'; // eslint-disable-line import/no-extraneous-dependencies
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { Header } from '../components/Header';
@@ -11,13 +12,17 @@ export const Home = () => {
   const [books, setBooks] = useState([]);
   const [errorMessage, setErrorMessage] = useState([]);
   const [offset, setOffset] = useState(0);
+  const auth = useSelector((state) => state.auth.isSignIn);
+  const fullUrl = auth ? `${url}/books` : `${url}/public/books`;
 
   useEffect(() => {
     axios
-      .get(`${url}/books`, {
-        headers: {
-          authorization: `Bearer ${cookies.token}`,
-        },
+      .get(fullUrl, {
+        headers: auth
+          ? {
+              authorization: `Bearer ${cookies.token}`,
+            }
+          : {},
         params: {
           offset,
         },

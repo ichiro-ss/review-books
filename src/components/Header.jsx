@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCookies } from 'react-cookie'; // eslint-disable-line import/no-extraneous-dependencies
 import { useSelector, useDispatch } from 'react-redux'; // eslint-disable-line import/no-extraneous-dependencies
-import { useNavigate } from 'react-router-dom'; // eslint-disable-line import/no-extraneous-dependencies
+import { useNavigate, Link } from 'react-router-dom'; // eslint-disable-line import/no-extraneous-dependencies
 import { signOut } from '../authSlice';
 import './header.scss';
 
@@ -30,7 +30,11 @@ export const Header = () => {
           </button>
         </>
       ) : (
-        <> </>
+        <Link to="/signin">
+          <button type="button" className="sign-in-button">
+            サインイン
+          </button>
+        </Link>
       )}
     </header>
   );
