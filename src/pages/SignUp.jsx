@@ -70,6 +70,7 @@ export const SignUp = () => {
         uploadIcon(token);
         dispatch(signIn());
         setCookie('token', token);
+        setCookie('name', data.name);
         navigate('/');
       })
       .catch((err) => {

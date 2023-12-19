@@ -23,7 +23,11 @@ export const Home = () => {
         },
       })
       .then((res) => {
-        setBooks(res.data);
+        if (res.data.length > 0) {
+          setBooks(res.data);
+        } else {
+          setOffset((prevOffset) => prevOffset - 10);
+        }
       })
       .catch((err) => {
         setErrorMessage(`本データの取得に失敗しました．${err}`);

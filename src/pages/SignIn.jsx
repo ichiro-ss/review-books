@@ -23,11 +23,28 @@ export const SignIn = () => {
   } = useForm({ mode: 'onBlur' });
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
+
+  const getProfile = (token) => {
+    axios
+      .get(`${url}/users`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setCookie('iconUrl', res.data.iconUrl);
+        setCookie('name', res.data.name);
+      })
+      .catch((err) => {
+        setErrorMessage(`ユーザー情報を取得できませんでした．${err}`);
+      });
+  };
   const onSignIn = () => {
     axios
       .post(`${url}/signin`, { email, password })
       .then((res) => {
         setCookie('token', res.data.token);
+        getProfile(res.data.token);
         dispatch(signIn());
         navigate('/');
       })

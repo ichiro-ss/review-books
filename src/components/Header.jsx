@@ -13,6 +13,8 @@ export const Header = () => {
   const handleSignOut = () => {
     dispatch(signOut());
     removeCookie('token');
+    removeCookie('name');
+    removeCookie('iconUrl');
     navigate('/signin');
   };
 
