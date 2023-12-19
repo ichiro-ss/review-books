@@ -1,0 +1,32 @@
+.book-list {
+  text-align: center;
+  &__next-button-container {
+    margin: 20px;
+  }
+  &__next-button,
+  &__prev-button {
+    font-size: 18px;
+    height: 35px;
+    width: 60px;
+  }
+  &__table-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 20px;
+  }
+  &__table {
+    border-collapse: collapse;
+    width: 100%;
+    width: 800px;
+  }
+  &__table-head {
+    font-size: 30px;
+  }
+  &__table th,
+  &__table td {
+    border: 1px solid black;
+    padding: 15px;
+    width: 20%; /* 各列の幅を一律に20%に設定 */
+  }
+}
