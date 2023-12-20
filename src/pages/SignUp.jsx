@@ -2,17 +2,13 @@ import axios from 'axios'; // eslint-disable-line import/no-extraneous-dependenc
 import { useState } from 'react';
 import { useCookies } from 'react-cookie'; // eslint-disable-line import/no-extraneous-dependencies
 import { useNavigate, Navigate, Link } from 'react-router-dom'; // eslint-disable-line import/no-extraneous-dependencies
-import { useSelector, useDispatch } from 'react-redux'; // eslint-disable-line import/no-extraneous-dependencies
 import Compressor from 'compressorjs'; // eslint-disable-line import/no-extraneous-dependencies
 import { useForm } from 'react-hook-form'; // eslint-disable-line import/no-extraneous-dependencies
-import { signIn } from '../authSlice';
 import { url } from '../const';
 import { Header } from '../components/Header';
 
 export const SignUp = () => {
   const navigate = useNavigate();
-  const auth = useSelector((state) => state.auth.isSignIn);
-  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -68,7 +64,6 @@ export const SignUp = () => {
         }
         const { token } = res.data;
         uploadIcon(token);
-        dispatch(signIn());
         setCookie('token', token);
         setCookie('name', data.name);
         navigate('/');
@@ -78,7 +73,7 @@ export const SignUp = () => {
         return null;
       });
 
-    if (auth) return <Navigate to="/" />;
+    if (cookies.token) return <Navigate to="/" />;
 
     return null;
   };

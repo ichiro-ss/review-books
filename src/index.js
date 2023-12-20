@@ -1,18 +1,15 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { CookiesProvider } from 'react-cookie'; // eslint-disable-line import/no-extraneous-dependencies
-import { Root } from './Root';
 import { App } from './App';
 import reportWebVitals from './reportWebVitals';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
-  <Root>
-    <CookiesProvider>
-      <App />
-    </CookiesProvider>
-  </Root>,
+  <CookiesProvider>
+    <App />
+  </CookiesProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

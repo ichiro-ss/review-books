@@ -2,15 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { useCookies } from 'react-cookie'; // eslint-disable-line import/no-extraneous-dependencies
 import { Navigate, useNavigate, Link } from 'react-router-dom'; // eslint-disable-line import/no-extraneous-dependencies
-import { useDispatch, useSelector } from 'react-redux'; // eslint-disable-line import/no-extraneous-dependencies
 import { useForm } from 'react-hook-form'; // eslint-disable-line import/no-extraneous-dependencies
 import { signIn } from '../authSlice';
 import { url } from '../const';
 import { Header } from '../components/Header';
 
 export const SignIn = () => {
-  const auth = useSelector((state) => state.auth.isSignIn);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -45,7 +42,6 @@ export const SignIn = () => {
       .then((res) => {
         setCookie('token', res.data.token);
         getProfile(res.data.token);
-        dispatch(signIn());
         navigate('/');
       })
       .catch((err) => {
@@ -53,7 +49,7 @@ export const SignIn = () => {
       });
   };
 
-  if (auth) return <Navigate to="/" />;
+  if (cookies.token) return <Navigate to="/" />;
 
   return (
     <div>

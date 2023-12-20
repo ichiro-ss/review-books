@@ -1,15 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import { SignIn } from './SignIn';
-import { Root } from '../Root';
 import { HashRouter } from 'react-router-dom';
 
 describe('sign in', () => {
   test('input form exists', () => {
     render(
       <HashRouter>
-        <Root>
-          <SignIn />
-        </Root>
+        <SignIn />
       </HashRouter>,
     );
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
