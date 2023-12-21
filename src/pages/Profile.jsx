@@ -1,10 +1,16 @@
+import axios from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
+import { useNavigate, Navigate, Link } from 'react-router-dom'; // eslint-disable-line import/no-extraneous-dependencies
 import { useForm } from 'react-hook-form';
+import { url } from '../const';
+import { Header } from '../components/Header';
 
 export const Profile = () => {
+  const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies();
   const [name, setName] = useState('');
+  const [errorMessage, setErrorMessge] = useState();
   const {
     register,
     handleSubmit,
@@ -13,36 +19,59 @@ export const Profile = () => {
   const handleNameChange = (e) => setName(e.target.value);
 
   const onEdit = () => {
+    const data = {
+      name,
+    };
+
+    axios
+      .put(`${url}/users`, data, {
+        headers: {
+          authorization: `Bearer ${cookies.token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data.name);
+        setCookie('name', res.data.name);
+        navigate('/');
+      })
+      .catch((err) => {
+        setErrorMessge(`変更に失敗しました。 ${err}`);
+        return null;
+      });
     return null;
   };
 
   return (
-    <div className="edit-username">
-      <h1>edit username</h1>
-      <img src={cookies.iconUrl} alt="" />
-      <form className="edit-form" onSubmit={handleSubmit(onEdit)}>
-        {/* eslint-disable */}
-        <label htmlFor="name">
-          name
-          <input
-            {...register('name', {
-              required: 'please input your name',
-              maxLength: {
-                value: 30,
-                message: 'maxLength: 30',
-              },
-            })}
-            type="text"
-            onChange={handleNameChange}
-            id="text"
-          />
-        </label>
-        {errors.name && <div>{errors.name.message}</div>}
-        <button type="submit" className="edit-button">
-          Edit
-        </button>
-        {/* eslint-enable */}
-      </form>
+    <div>
+      <main className="profile">
+        <Header />
+        <h1>edit username</h1>
+        <p className="error-message">{errorMessage}</p>
+        <img src={cookies.iconUrl} alt="" />
+        <form className="edit-form" onSubmit={handleSubmit(onEdit)}>
+          {/* eslint-disable */}
+          <label htmlFor="name">
+            name
+            <input
+              {...register('name', {
+                required: 'please input your name',
+                maxLength: {
+                  value: 30,
+                  message: 'maxLength: 30',
+                },
+              })}
+              type="text"
+              onChange={handleNameChange}
+              id="text"
+            />
+          </label>
+          {errors.name && <div>{errors.name.message}</div>}
+          <button type="submit" className="edit-button">
+            Edit
+          </button>
+          {/* eslint-enable */}
+        </form>
+      </main>
     </div>
   );
 };
