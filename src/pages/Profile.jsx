@@ -9,7 +9,7 @@ import { Header } from '../components/Header';
 export const Profile = () => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies();
-  const [name, setName] = useState('');
+  const [name, setName] = useState(cookies.name);
   const [errorMessage, setErrorMessge] = useState();
   const {
     register,
@@ -30,7 +30,6 @@ export const Profile = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.name);
         setCookie('name', res.data.name);
         navigate('/');
       })
@@ -60,6 +59,7 @@ export const Profile = () => {
                   message: 'maxLength: 30',
                 },
               })}
+              value={name}
               type="text"
               onChange={handleNameChange}
               id="text"
