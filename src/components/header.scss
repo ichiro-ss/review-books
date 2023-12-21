@@ -5,6 +5,9 @@
   color: #ffffff;
   display: flex;
   justify-content: space-between;
+  &__edit-user {
+    color: white;
+  }
 }
 
 .sign-out-button {
