@@ -4,6 +4,7 @@ import { HashRouter, Route, Routes, Navigate } from 'react-router-dom'; // eslin
 import { Home } from '../pages/Home';
 import { SignIn } from '../pages/SignIn';
 import { SignUp } from '../pages/SignUp';
+import { Profile } from '../pages/Profile';
 import { NotFound } from '../pages/NotFound';
 
 export const Router = () => {
@@ -13,6 +14,7 @@ export const Router = () => {
       <Routes>
         <Route path="/signin" element={cookies.token ? <Navigate replace to="/" /> : <SignIn />} />
         <Route path="/signup" element={cookies.token ? <Navigate replace to="/" /> : <SignUp />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/" element={<Home />} />
         <Route element={<NotFound />} />
       </Routes>
