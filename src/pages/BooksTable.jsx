@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Props = {
   books: String,
@@ -21,8 +22,10 @@ export const BooksTable = (props) => {
         <tbody className="book-list__table-body">
           {books.map((book, key) => (
             <tr key={book.id}>
-              <td>{book.title}</td>
-              <td>{book.title}</td>
+              <td>
+                <Link to={`detail/${book.id}`}>{book.title}</Link>
+              </td>
+              <td>{book.url}</td>
               <td>{book.detail}</td>
               <td>{book.review}</td>
               <td>{book.reviewer}</td>
