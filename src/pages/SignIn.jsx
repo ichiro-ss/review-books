@@ -3,7 +3,6 @@ import axios from 'axios'; // eslint-disable-line import/no-extraneous-dependenc
 import { useCookies } from 'react-cookie'; // eslint-disable-line import/no-extraneous-dependencies
 import { Navigate, useNavigate, Link } from 'react-router-dom'; // eslint-disable-line import/no-extraneous-dependencies
 import { useForm } from 'react-hook-form'; // eslint-disable-line import/no-extraneous-dependencies
-import { signIn } from '../authSlice';
 import { url } from '../const';
 import { Header } from '../components/Header';
 
