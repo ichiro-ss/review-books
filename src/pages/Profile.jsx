@@ -1,7 +1,7 @@
 import axios from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { useNavigate, Navigate, Link } from 'react-router-dom'; // eslint-disable-line import/no-extraneous-dependencies
+import { useNavigate } from 'react-router-dom'; // eslint-disable-line import/no-extraneous-dependencies
 import { useForm } from 'react-hook-form';
 import { url } from '../const';
 import { Header } from '../components/Header';

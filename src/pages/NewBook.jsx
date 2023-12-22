@@ -1,11 +1,17 @@
+import axios from 'axios'; // eslint-disable-line import/no-extraneous-dependencies
+import { useNavigate } from 'react-router-dom'; // eslint-disable-line import/no-extraneous-dependencies
+import { useCookies } from 'react-cookie';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+import { url } from '../const';
 import { Header } from '../components/Header';
 
 export const NewBook = () => {
+  const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies();
   const [errorMessage, setErrorMessge] = useState();
   const [title, setTitle] = useState('');
-  const [url, setUrl] = useState('');
+  const [bookUrl, setBookUrl] = useState('');
   const [detail, setDetail] = useState('');
   const [review, setReview] = useState('');
   const {
@@ -13,14 +19,32 @@ export const NewBook = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: 'onBlur' });
+  const handleTitleChange = (e) => setTitle(e.target.value);
+  const handleUrlChange = (e) => setBookUrl(e.target.value);
+  const handleDetailChange = (e) => setDetail(e.target.value);
+  const handleReviewChange = (e) => setReview(e.target.value);
 
   const onNewBook = () => {
     const data = {
       title,
-      url,
+      url: bookUrl,
       detail,
       review,
     };
+
+    axios
+      .post(`${url}/books`, data, {
+        headers: {
+          authorization: `Bearer ${cookies.token}`,
+        },
+      })
+      .then((res) => {
+        navigate('/');
+      })
+      .catch((err) => {
+        setErrorMessge(`変更に失敗しました。 ${err}`);
+      });
+    return null;
   };
   return (
     <div>
@@ -41,18 +65,13 @@ export const NewBook = () => {
                 },
               })}
               type="text"
-              //   onChange={handleTitleChange}
+              onChange={handleTitleChange}
               id="title"
             />
           </label>
           <label htmlFor="url">
             url
-            <input
-              {...register('url')}
-              type="text"
-              //   onChange={handleTitleChange}
-              id="url"
-            />
+            <input {...register('url')} type="text" onChange={handleUrlChange} id="url" />
           </label>
           <label htmlFor="detail">
             detail
@@ -61,7 +80,7 @@ export const NewBook = () => {
                 required: 'please input detail',
               })}
               type="text"
-              //   onChange={handleTitleChange}
+              onChange={handleDetailChange}
               id="detail"
             />
           </label>
@@ -72,7 +91,7 @@ export const NewBook = () => {
                 required: 'please input review',
               })}
               type="text"
-              //   onChange={handleTitleChange}
+              onChange={handleReviewChange}
               id="review"
             />
           </label>
