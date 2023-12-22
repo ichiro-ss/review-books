@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import { Link } from 'react-router-dom'; // eslint-disable-line import/no-extraneous-dependencies
 import { Header } from '../components/Header';
 import { url } from '../const';
 import { BooksTable } from './BooksTable';
@@ -61,6 +62,11 @@ export const Home = () => {
           次
         </button>
       </div>
+      {cookies.token && (
+        <div className="new-book">
+          <Link to="/new">本を投稿</Link>
+        </div>
+      )}
     </div>
   );
 };
