@@ -18,7 +18,7 @@ export const Router = () => {
         <Route path="/signup" element={cookies.token ? <Navigate replace to="/" /> : <SignUp />} />
         <Route path="/profile" element={cookies.token ? <Profile /> : <Navigate replace to="/" />} />
         <Route path="/new" element={cookies.token ? <NewBook /> : <Navigate replace to="/" />} />
-        <Route path="/detail/" element={<Detail />} />
+        <Route path="/detail/:id" element={<Detail />} />
         <Route path="/" element={<Home />} />
         <Route element={<NotFound />} />
       </Routes>
