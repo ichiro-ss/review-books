@@ -60,6 +60,22 @@ export const Edit = () => {
     return null;
   };
 
+  const onDelete = () => {
+    axios
+      .delete(`${url}/books/${params.id}`, {
+        headers: {
+          authorization: `Bearer ${cookies.token}`,
+        },
+      })
+      .then((res) => {
+        navigate('/');
+      })
+      .catch((err) => {
+        setErrorMessage(`削除に失敗しました。 ${err}`);
+      });
+    return null;
+  };
+
   return (
     <div>
       <main className="edit">
@@ -67,64 +83,69 @@ export const Edit = () => {
         <p className="error-msg">{errorMessage}</p>
         <h1>Edit</h1>
         {book ? (
-          <form className="newbook-form" onSubmit={handleSubmit(onEdit)}>
-            {/* eslint-disable */}
-            <label htmlFor="title">
-              title
-              <input
-                {...register('title', {
-                  required: 'please input title',
-                  maxLength: {
-                    value: 30,
-                    message: 'maxLength: 30',
-                  },
-                })}
-                value={book.title}
-                type="text"
-                onChange={(e) => setBook({ ...book, title: e.target.value })}
-                id="title"
-              />
-            </label>
-            <label htmlFor="url">
-              url
-              <input
-                {...register('url')}
-                value={book.url}
-                type="text"
-                onChange={(e) => setBook({ ...book, url: e.target.value })}
-                id="url"
-              />
-            </label>
-            <label htmlFor="detail">
-              detail
-              <input
-                {...register('detail', {
-                  required: 'please input detail',
-                })}
-                value={book.detail}
-                type="text"
-                onChange={(e) => setBook({ ...book, detail: e.target.value })}
-                id="detail"
-              />
-            </label>
-            <label htmlFor="review">
-              review
-              <input
-                {...register('review', {
-                  required: 'please input review',
-                })}
-                value={book.review}
-                type="text"
-                onChange={(e) => setBook({ ...book, review: e.target.value })}
-                id="review"
-              />
-            </label>
-            {errors.name && <div>{errors.name.message}</div>}
-            <button type="submit" className="newbook-button">
-              post
+          <div>
+            <form className="newbook-form" onSubmit={handleSubmit(onEdit)}>
+              {/* eslint-disable */}
+              <label htmlFor="title">
+                title
+                <input
+                  {...register('title', {
+                    required: 'please input title',
+                    maxLength: {
+                      value: 30,
+                      message: 'maxLength: 30',
+                    },
+                  })}
+                  value={book.title}
+                  type="text"
+                  onChange={(e) => setBook({ ...book, title: e.target.value })}
+                  id="title"
+                />
+              </label>
+              <label htmlFor="url">
+                url
+                <input
+                  {...register('url')}
+                  value={book.url}
+                  type="text"
+                  onChange={(e) => setBook({ ...book, url: e.target.value })}
+                  id="url"
+                />
+              </label>
+              <label htmlFor="detail">
+                detail
+                <input
+                  {...register('detail', {
+                    required: 'please input detail',
+                  })}
+                  value={book.detail}
+                  type="text"
+                  onChange={(e) => setBook({ ...book, detail: e.target.value })}
+                  id="detail"
+                />
+              </label>
+              <label htmlFor="review">
+                review
+                <input
+                  {...register('review', {
+                    required: 'please input review',
+                  })}
+                  value={book.review}
+                  type="text"
+                  onChange={(e) => setBook({ ...book, review: e.target.value })}
+                  id="review"
+                />
+              </label>
+              {errors.name && <div>{errors.name.message}</div>}
+              <button type="submit" className="newbook-button">
+                post
+              </button>
+              {/* eslint-enable */}
+            </form>
+            <button type="button" onClick={onDelete}>
+              delete
             </button>
-            {/* eslint-enable */}
-          </form>
+          </div>
         ) : (
           <div className="loading custom-loader">
             <ClipLoader color="blue" size={50} aria-label="Loading Spinner" data-testid="loader" />
