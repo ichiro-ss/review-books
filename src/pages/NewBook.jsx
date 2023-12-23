@@ -9,7 +9,7 @@ import { Header } from '../components/Header';
 export const NewBook = () => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies();
-  const [errorMessage, setErrorMessge] = useState();
+  const [errorMessage, setErrormessage] = useState();
   const [title, setTitle] = useState('');
   const [bookUrl, setBookUrl] = useState('');
   const [detail, setDetail] = useState('');
@@ -42,7 +42,7 @@ export const NewBook = () => {
         navigate('/');
       })
       .catch((err) => {
-        setErrorMessge(`変更に失敗しました。 ${err}`);
+        setErrormessage(`変更に失敗しました。 ${err}`);
       });
     return null;
   };

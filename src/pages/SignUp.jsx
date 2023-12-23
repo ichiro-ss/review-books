@@ -14,7 +14,7 @@ export const SignUp = () => {
   const [password, setPassword] = useState('');
   const [iconFile, setIconFile] = useState(null);
   const [iconPrev, setIconPrev] = useState(null);
-  const [errorMessage, setErrorMessge] = useState();
+  const [errorMessage, setErrormessage] = useState();
   const [cookies, setCookie, removeCookie] = useCookies();
   const {
     register,
@@ -43,7 +43,7 @@ export const SignUp = () => {
           setCookie('iconUrl', iconUrl);
         })
         .catch((err) => {
-          setErrorMessge(`サインアップに失敗しました。 ${err}`);
+          setErrormessage(`サインアップに失敗しました。 ${err}`);
         });
       return null;
     };
@@ -69,7 +69,7 @@ export const SignUp = () => {
         navigate('/');
       })
       .catch((err) => {
-        setErrorMessge(`サインアップに失敗しました。 ${err}`);
+        setErrormessage(`サインアップに失敗しました。 ${err}`);
         return null;
       });
 

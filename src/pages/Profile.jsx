@@ -10,7 +10,7 @@ export const Profile = () => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies();
   const [name, setName] = useState(cookies.name);
-  const [errorMessage, setErrorMessge] = useState();
+  const [errorMessage, setErrormessage] = useState();
   const {
     register,
     handleSubmit,
@@ -34,7 +34,7 @@ export const Profile = () => {
         navigate('/');
       })
       .catch((err) => {
-        setErrorMessge(`変更に失敗しました。 ${err}`);
+        setErrormessage(`変更に失敗しました。 ${err}`);
         return null;
       });
     return null;
