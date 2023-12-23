@@ -13,16 +13,13 @@ export const Edit = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
   const [errorMessage, setErrorMessage] = useState();
   const [book, setBook] = useState([]);
-  const [pageLoading, setPageLoading] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: 'onBlur' });
-  const handleBookChange = (e) => setBook(e.target.value);
 
   useEffect(() => {
-    setPageLoading(true);
     axios
       .get(`${url}/books/${params.id}`, {
         headers: {
@@ -34,11 +31,9 @@ export const Edit = () => {
           navigate(`/detail/${params.id}`);
         }
         setBook(res.data);
-        setPageLoading(false);
       })
       .catch((err) => {
         setErrorMessage(`本データの取得に失敗しました．${err}`);
-        setPageLoading(false);
       });
   }, []);
 
@@ -52,11 +47,7 @@ export const Edit = () => {
         <Header />
         <p className="error-msg">{errorMessage}</p>
         <h1>Edit</h1>
-        {pageLoading ? (
-          <div className="loading custom-loader">
-            <ClipLoader color="blue" size={50} aria-label="Loading Spinner" data-testid="loader" />
-          </div>
-        ) : (
+        {book ? (
           <form className="newbook-form" onSubmit={handleSubmit(onEdit)}>
             {/* eslint-disable */}
             <label htmlFor="title">
@@ -69,6 +60,7 @@ export const Edit = () => {
                     message: 'maxLength: 30',
                   },
                 })}
+                value={book.title}
                 type="text"
                 onChange={(e) => setBook({ ...book, title: e.target.value })}
                 id="title"
@@ -78,6 +70,7 @@ export const Edit = () => {
               url
               <input
                 {...register('url')}
+                value={book.url}
                 type="text"
                 onChange={(e) => setBook({ ...book, url: e.target.value })}
                 id="url"
@@ -89,6 +82,7 @@ export const Edit = () => {
                 {...register('detail', {
                   required: 'please input detail',
                 })}
+                value={book.detail}
                 type="text"
                 onChange={(e) => setBook({ ...book, detail: e.target.value })}
                 id="detail"
@@ -100,6 +94,7 @@ export const Edit = () => {
                 {...register('review', {
                   required: 'please input review',
                 })}
+                value={book.review}
                 type="text"
                 onChange={(e) => setBook({ ...book, review: e.target.value })}
                 id="review"
@@ -111,6 +106,10 @@ export const Edit = () => {
             </button>
             {/* eslint-enable */}
           </form>
+        ) : (
+          <div className="loading custom-loader">
+            <ClipLoader color="blue" size={50} aria-label="Loading Spinner" data-testid="loader" />
+          </div>
         )}
         <div className="book-detail">
           <div className="book-detail__title">{book.title}</div>
