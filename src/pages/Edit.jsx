@@ -14,6 +14,12 @@ export const Edit = () => {
   const [errorMessage, setErrorMessage] = useState();
   const [book, setBook] = useState([]);
   const [pageLoading, setPageLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: 'onBlur' });
+  const handleBookChange = (e) => setBook(e.target.value);
 
   useEffect(() => {
     setPageLoading(true);
@@ -36,6 +42,10 @@ export const Edit = () => {
       });
   }, []);
 
+  const onEdit = () => {
+    return null;
+  };
+
   return (
     <div>
       <main className="edit">
@@ -47,14 +57,68 @@ export const Edit = () => {
             <ClipLoader color="blue" size={50} aria-label="Loading Spinner" data-testid="loader" />
           </div>
         ) : (
-          <div className="book-detail">
-            <div className="book-detail__title">{book.title}</div>
-            <div className="book-detail__url">{book.url}</div>
-            <div className="book-detail__detail">{book.detail}</div>
-            <div className="book-detail__review">{book.review}</div>
-            <div className="book-detail__reviewer">{book.reviewer}</div>
-          </div>
-        )}{' '}
+          <form className="newbook-form" onSubmit={handleSubmit(onEdit)}>
+            {/* eslint-disable */}
+            <label htmlFor="title">
+              title
+              <input
+                {...register('title', {
+                  required: 'please input title',
+                  maxLength: {
+                    value: 30,
+                    message: 'maxLength: 30',
+                  },
+                })}
+                type="text"
+                onChange={(e) => setBook({ ...book, title: e.target.value })}
+                id="title"
+              />
+            </label>
+            <label htmlFor="url">
+              url
+              <input
+                {...register('url')}
+                type="text"
+                onChange={(e) => setBook({ ...book, url: e.target.value })}
+                id="url"
+              />
+            </label>
+            <label htmlFor="detail">
+              detail
+              <input
+                {...register('detail', {
+                  required: 'please input detail',
+                })}
+                type="text"
+                onChange={(e) => setBook({ ...book, detail: e.target.value })}
+                id="detail"
+              />
+            </label>
+            <label htmlFor="review">
+              review
+              <input
+                {...register('review', {
+                  required: 'please input review',
+                })}
+                type="text"
+                onChange={(e) => setBook({ ...book, review: e.target.value })}
+                id="review"
+              />
+            </label>
+            {errors.name && <div>{errors.name.message}</div>}
+            <button type="submit" className="newbook-button">
+              post
+            </button>
+            {/* eslint-enable */}
+          </form>
+        )}
+        <div className="book-detail">
+          <div className="book-detail__title">{book.title}</div>
+          <div className="book-detail__url">{book.url}</div>
+          <div className="book-detail__detail">{book.detail}</div>
+          <div className="book-detail__review">{book.review}</div>
+          <div className="book-detail__reviewer">{book.reviewer}</div>
+        </div>
       </main>
     </div>
   );
