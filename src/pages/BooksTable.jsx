@@ -29,6 +29,7 @@ export const BooksTable = (props) => {
               <td>{book.detail}</td>
               <td>{book.review}</td>
               <td>{book.reviewer}</td>
+              {book.isMine && <Link to={`edit/${book.id}`}>edit</Link>}
             </tr>
           ))}
         </tbody>
