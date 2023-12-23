@@ -13,8 +13,26 @@ export const Detail = () => {
   const [errorMessage, setErrorMessage] = useState([]);
   const [pageLoading, setPageLoading] = useState(false);
 
+  const logging = () => {
+    const data = {
+      selectBookId: params.id,
+    };
+    axios
+      .post(`${url}/logs`, data, {
+        headers: {
+          authorization: `Bearer ${cookies.token}`,
+        },
+      })
+      .then((res) => {
+        console.log('successfully logged');
+      })
+      .catch((err) => {
+        setErrorMessage(`ロギングに失敗しました。 ${err}`);
+      });
+  };
   useEffect(() => {
     setPageLoading(true);
+    logging();
     axios
       .get(`${url}/books/${params.id}`, {
         headers: {
