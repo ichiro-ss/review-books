@@ -38,6 +38,25 @@ export const Edit = () => {
   }, []);
 
   const onEdit = () => {
+    const data = {
+      title: book.title,
+      url: book.url,
+      detail: book.detail,
+      review: book.review,
+    };
+    axios
+      .put(`${url}/books/${params.id}`, data, {
+        headers: {
+          authorization: `Bearer ${cookies.token}`,
+        },
+      })
+      .then((res) => {
+        setBook(res.data);
+        navigate('/');
+      })
+      .catch((err) => {
+        setErrorMessage(`変更に失敗しました。 ${err}`);
+      });
     return null;
   };
 
@@ -111,13 +130,6 @@ export const Edit = () => {
             <ClipLoader color="blue" size={50} aria-label="Loading Spinner" data-testid="loader" />
           </div>
         )}
-        <div className="book-detail">
-          <div className="book-detail__title">{book.title}</div>
-          <div className="book-detail__url">{book.url}</div>
-          <div className="book-detail__detail">{book.detail}</div>
-          <div className="book-detail__review">{book.review}</div>
-          <div className="book-detail__reviewer">{book.reviewer}</div>
-        </div>
       </main>
     </div>
   );
