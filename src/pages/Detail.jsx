@@ -41,10 +41,11 @@ export const Detail = () => {
       })
       .then((res) => {
         setBook(res.data);
-        setPageLoading(false);
       })
       .catch((err) => {
         setErrorMessage(`本データの取得に失敗しました．${err}`);
+      })
+      .finally(() => {
         setPageLoading(false);
       });
   }, []);
